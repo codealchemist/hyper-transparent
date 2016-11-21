@@ -1,5 +1,5 @@
 {
-  "name": "hypertransparent",
+  "name": "hyper-transparent",
   "version": "1.0.0",
   "description": "Hyper plugin to easily set window transparency.",
   "main": "index.js",
