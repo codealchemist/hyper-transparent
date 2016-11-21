@@ -11,7 +11,10 @@
     "hyper",
     "transparent"
   ],
-  "author": "Alberto Miranda",
+  "author": {
+    "name": "Alberto Miranda",
+    "email": "b3rt.js@gmail.com"
+  },
   "license": "MIT",
   "dependencies": {
     "color": "^0.11.4",
