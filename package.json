@@ -1,0 +1,31 @@
+{
+  "name": "hypertransparent",
+  "version": "1.0.0",
+  "description": "Hyper plugin to easily set window transparency.",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard && mocha --reporter spec",
+    "test-watch": "mocha --watch --reporter spec"
+  },
+  "keywords": [
+    "hyper",
+    "transparent"
+  ],
+  "author": "Alberto Miranda",
+  "license": "MIT",
+  "dependencies": {
+    "color": "^0.11.4",
+    "standard": "^8.5.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2"
+  },
+  "standard": {
+    "globals": [
+      "describe",
+      "it",
+      "beforeEach"
+    ]
+  }
+}
