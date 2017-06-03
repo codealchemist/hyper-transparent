@@ -3,7 +3,8 @@ const HyperTransparent = require('../hyper-transparent')
 const hyperTransparent = new HyperTransparent()
 
 const win = {
-  setBackgroundColor: () => {}
+  setBackgroundColor: () => {},
+  setVibrancy: () => {}
 }
 
 describe('hyper-transparent', () => {
@@ -16,7 +17,10 @@ describe('hyper-transparent', () => {
   })
 
   it('it should have default config', () => {
-    const defaultConfig = {backgroundColor: 'rgba(0,0,0,0.7)'}
+    const defaultConfig = {
+      backgroundColor: 'rgba(0,0,0,0.7)',
+      vibrancy: ''
+    }
     expect(hyperTransparent.config).to.eql(defaultConfig)
   })
 
@@ -36,17 +40,32 @@ describe('hyper-transparent', () => {
     expect(hyperTransparent.config.backgroundColor).to.eql('rgba(0,0,0,0.5)')
   })
 
+  it('should set vibrancy', () => {
+    hyperTransparent.setVibrancy('dark')
+    expect(hyperTransparent.config.vibrancy).to.eql('dark')
+
+    hyperTransparent.setVibrancy('light')
+    expect(hyperTransparent.config.vibrancy).to.eql('light')
+
+    hyperTransparent.setVibrancy('')
+    expect(hyperTransparent.config.vibrancy).to.eql('')
+  })
+
   it('should save latest config', () => {
     hyperTransparent.setTransparency(0)
+    hyperTransparent.setVibrancy('dark')
     hyperTransparent.saveConfig()
     let config = require('../hyper-transparent.json')
     expect(config.backgroundColor).to.eql('rgba(0,0,0,0)')
+    expect(config.vibrancy).to.eql('dark')
 
     // restore default config and test again
     hyperTransparent.setTransparency(0.7)
+    hyperTransparent.setVibrancy('')
     hyperTransparent.saveConfig()
     config = require('../hyper-transparent.json')
     expect(config.backgroundColor).to.eql('rgba(0,0,0,0.7)')
+    expect(config.vibrancy).to.eql('')
   })
 
   it('should decorate menu', () => {
@@ -59,9 +78,16 @@ describe('hyper-transparent', () => {
     expect(Array.isArray(decoratedMenu)).to.equal(true)
     expect(decoratedMenu[0].label).to.equal('Other')
     expect(decoratedMenu[1].label).to.equal('View')
+
+    // Transparency
     expect(decoratedMenu[1].submenu[1].label).to.equal('Transparency')
     expect(decoratedMenu[1].submenu[1].submenu[0].label).to.equal('Off')
     expect(decoratedMenu[1].submenu[1].submenu.slice(-1)[0].label).to.equal('Max')
+
+    // Vibrancy
+    expect(decoratedMenu[1].submenu[2].label).to.equal('Vibrancy')
+    expect(decoratedMenu[1].submenu[2].submenu[0].label).to.equal('Off')
+    expect(decoratedMenu[1].submenu[2].submenu.slice(-1)[0].label).to.equal('Ultra Dark')
   })
 
   it('should decorate config', () => {

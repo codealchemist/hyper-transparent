@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "standard && mocha --reporter spec",
-    "test-watch": "mocha --watch --reporter spec"
+    "test-watch": "mocha --watch --reporter spec",
+    "test-focus": "standard-focus"
   },
   "keywords": [
     "hyper",
@@ -15,10 +16,11 @@
     "name": "Alberto Miranda",
     "email": "b3rt.js@gmail.com"
   },
+  "repository": "codealchemist/hyper-transparent",
   "license": "MIT",
   "dependencies": {
     "color": "^0.11.4",
-    "standard": "^8.5.0"
+    "standard-focus": "^1.1.2"
   },
   "devDependencies": {
     "chai": "^3.5.0",

@@ -22,13 +22,18 @@ module.exports = class HyperTransparent {
     this.win.setBackgroundColor(toElectronBackgroundColor(this.config.backgroundColor))
   }
 
-  setWindow (win) {
-    this.win = win
+  setVibrancy (value) {
+    this.config.vibrancy = value
+    this.win.setVibrancy(value)
   }
 
-  decorateMenu (menu) {
-    const separator = {type: 'separator'}
-    const transparencyMenu = {
+  setWindow (win) {
+    this.win = win
+    this.setVibrancy(this.config.vibrancy)
+  }
+
+  getTransparencyMenu () {
+    return {
       label: 'Transparency',
       submenu: [
         {
@@ -60,20 +65,74 @@ module.exports = class HyperTransparent {
           }
         },
         {
-          label: 'Max',
+          label: 'High',
           click: () => {
             this.setTransparency(0.2)
+            this.saveConfig()
+          }
+        },
+        {
+          label: 'Max',
+          click: () => {
+            this.setTransparency(0.1)
             this.saveConfig()
           }
         }
       ]
     }
+  }
+
+  getVibrancyMenu () {
+    return {
+      label: 'Vibrancy',
+      submenu: [
+        {
+          label: 'Off',
+          click: () => {
+            this.setVibrancy('')
+            this.saveConfig()
+          }
+        },
+        {
+          label: 'Dark',
+          click: () => {
+            this.setVibrancy('dark')
+            this.saveConfig()
+          }
+        },
+        {
+          label: 'Medium Light',
+          click: () => {
+            this.setVibrancy('medium-light')
+            this.saveConfig()
+          }
+        },
+        {
+          label: 'Ultra Dark',
+          click: () => {
+            this.setVibrancy('ultra-dark')
+            this.saveConfig()
+          }
+        }
+      ]
+    }
+  }
+
+  decorateMenu (menu) {
+    const separator = {type: 'separator'}
+    const transparencyMenu = this.getTransparencyMenu()
+    const vibrancyMenu = this.getVibrancyMenu()
 
     // add transparency menu inside View menu
     menu.map((menuItem) => {
       if (menuItem.label === 'View') {
         menuItem.submenu.push(separator)
         menuItem.submenu.push(transparencyMenu)
+
+        // Set vibrancy menu on systems where vibrancy is available.
+        if (this.win && typeof this.win.setVibrancy === 'function') {
+          menuItem.submenu.push(vibrancyMenu)
+        }
       }
     })
 
