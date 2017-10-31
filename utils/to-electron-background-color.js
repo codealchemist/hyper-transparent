@@ -6,7 +6,7 @@ const Color = require('color')
 module.exports = bgColor => {
   const color = Color(bgColor)
   if (color.alpha() === 1) {
-    return color.hexString()
+    return color.hex()
   }
   return '#' + Math.floor(color.alpha() * 100) + color.hex().substr(1)
 }
