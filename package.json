@@ -19,7 +19,7 @@
   "repository": "codealchemist/hyper-transparent",
   "license": "MIT",
   "dependencies": {
-    "color": "^0.11.4",
+    "color": "^2",
     "standard-focus": "^1.1.2"
   },
   "devDependencies": {

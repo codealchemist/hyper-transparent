@@ -8,5 +8,5 @@ module.exports = bgColor => {
   if (color.alpha() === 1) {
     return color.hexString()
   }
-  return '#' + Math.floor(color.alpha() * 100) + color.hexString().substr(1)
+  return '#' + Math.floor(color.alpha() * 100) + color.hex().substr(1)
 }
