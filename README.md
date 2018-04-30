@@ -21,27 +21,30 @@ You'll find up to date plugin install instructions in the official [Hyper](https
 
 ## Change background color
 
-Look for:
+Open **Hyper** config and change `backgroundColor` at config root level.
 
-`~/.hyper_plugins/node_modules/hyper-transparent/hyper-transparent.json`
+Input any HEX color you like.
 
-There you have something like (showing default config):
+**HyperTransparent** will remember this color and apply transparency to it.
 
-`{"backgroundColor":"rgba(0,0,0,0.7)","vibrancy":""}`
 
-Color is defined by the first 3 numbers in the 
-[rgba](https://developer.mozilla.org/en/docs/Web/CSS/color_value#Example_with_RGBa_syntax)
-property, going from `0` to `255`.
+## Set default config
 
-Each one is a color channel: red, green and blue.
+You can also persist a default config for **HyperTransparent** so your preferred settings are kept even after upgrading or reinstalling it.
 
-The last number is the **alpha channel**, which specifies the transparency amount and 
-it's controlled by **hyper-transparent**.
+Add the following config to **Hyper**'s config:
 
-Whatever color you write using the `rgb` portion will be preserved while changing 
-the alpha channel.
+```
+hyperTransparent: {
+  backgroundColor: '#4b4',
+  opacity: 0.2,
+  vibrancy: '' // ['', 'dark', 'medium-light', 'ultra-dark']
+}
+```
 
-The plan is to add better support for color picking in the future :)
+This config will be preferred, so every time you reload the app it will always
+be loaded.
+
 
 
 ## About Hyper
