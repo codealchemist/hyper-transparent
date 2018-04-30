@@ -1,13 +1,27 @@
-const {expect} = require('chai')
+const { expect } = require('chai')
+const { writeFileSync } = require('fs')
+const path = require('path')
 const HyperTransparent = require('../hyper-transparent')
-const hyperTransparent = new HyperTransparent()
 
+const configFile = path.join(__dirname, '../hyper-transparent.json')
 const win = {
   setBackgroundColor: () => {},
   setVibrancy: () => {}
 }
+const defaultConfig = {
+  backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  transparency: 0.7,
+  vibrancy: ''
+}
+
+// Ensure we start with default config.
+writeFileSync(configFile, JSON.stringify(defaultConfig))
 
 describe('hyper-transparent', () => {
+  // Construct HyperTransparent after setting default config,
+  // so it's properly loaded.
+  const hyperTransparent = new HyperTransparent()
+
   it('HyperTransparent should be defined', () => {
     expect(HyperTransparent).to.not.be.undefined
   })
@@ -17,11 +31,6 @@ describe('hyper-transparent', () => {
   })
 
   it('it should have default config', () => {
-    const defaultConfig = {
-      backgroundColor: 'rgba(0,0,0,0.7)',
-      transparency: 0.7,
-      vibrancy: ''
-    }
     expect(hyperTransparent.config).to.eql(defaultConfig)
   })
 
@@ -32,13 +41,13 @@ describe('hyper-transparent', () => {
 
   it('should set transparency', () => {
     hyperTransparent.setTransparency(0)
-    expect(hyperTransparent.config.backgroundColor).to.eql('rgba(0,0,0,0)')
+    expect(hyperTransparent.config.backgroundColor).to.eql('rgba(0, 0, 0, 0)')
 
     hyperTransparent.setTransparency(1)
-    expect(hyperTransparent.config.backgroundColor).to.eql('rgba(0,0,0,1)')
+    expect(hyperTransparent.config.backgroundColor).to.eql('rgba(0, 0, 0, 1)')
 
     hyperTransparent.setTransparency(0.5)
-    expect(hyperTransparent.config.backgroundColor).to.eql('rgba(0,0,0,0.5)')
+    expect(hyperTransparent.config.backgroundColor).to.eql('rgba(0, 0, 0, 0.5)')
   })
 
   it('should set vibrancy', () => {
@@ -56,17 +65,19 @@ describe('hyper-transparent', () => {
     hyperTransparent.setTransparency(0)
     hyperTransparent.setVibrancy('dark')
     hyperTransparent.saveConfig()
-    let config = require('../hyper-transparent.json')
-    expect(config.backgroundColor).to.eql('rgba(0,0,0,0)')
+    let config = require(configFile)
+    expect(config.backgroundColor).to.eql('rgba(0, 0, 0, 0)')
     expect(config.vibrancy).to.eql('dark')
+    expect(config.transparency).to.eql(0)
 
     // restore default config and test again
     hyperTransparent.setTransparency(0.7)
     hyperTransparent.setVibrancy('')
     hyperTransparent.saveConfig()
-    config = require('../hyper-transparent.json')
-    expect(config.backgroundColor).to.eql('rgba(0,0,0,0.7)')
+    config = require(configFile)
+    expect(config.backgroundColor).to.eql('rgba(0, 0, 0, 0.7)')
     expect(config.vibrancy).to.eql('')
+    expect(config.transparency).to.eql(0.7)
   })
 
   it('should decorate menu', () => {
@@ -92,10 +103,23 @@ describe('hyper-transparent', () => {
   })
 
   it('should decorate config', () => {
-    const config = {name: 'Something'}
-    const decoratedConfig = hyperTransparent.decorateConfig(config)
+    const config = {
+      name: 'Something',
+      backgroundColor: '#44a'
+    }
+    let decoratedConfig = hyperTransparent.decorateConfig(config)
 
     expect(decoratedConfig.name).to.eql(config.name)
-    expect(decoratedConfig.backgroundColor).to.eql('rgba(0,0,0,0.7)')
+    expect(decoratedConfig.backgroundColor).to.eql('rgba(68, 68, 170, 0.7)')
+
+    // restore default config and test again
+    config.name = 'Rock!'
+    config.backgroundColor = '#000'
+    decoratedConfig = hyperTransparent.decorateConfig(config)
+    const savedConfig = require(configFile)
+    expect(decoratedConfig.name).to.eql(config.name)
+    expect(savedConfig.backgroundColor).to.eql('rgba(0, 0, 0, 0.7)')
+    expect(savedConfig.vibrancy).to.eql('')
+    expect(savedConfig.transparency).to.eql(0.7)
   })
 })
