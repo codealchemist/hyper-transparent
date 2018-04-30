@@ -19,6 +19,7 @@ module.exports = class HyperTransparent {
   setTransparency (value) {
     const background = this.config.backgroundColor
     this.config.backgroundColor = background.replace(/rgba\((.*),(.*),(.*)\)/, `rgba($1,$2,${value})`)
+    this.config.transparency = value
     this.win.setBackgroundColor(toElectronBackgroundColor(this.config.backgroundColor))
   }
 
@@ -29,6 +30,7 @@ module.exports = class HyperTransparent {
 
   setWindow (win) {
     this.win = win
+    this.setTransparency(this.config.transparency)
     this.setVibrancy(this.config.vibrancy)
   }
 
