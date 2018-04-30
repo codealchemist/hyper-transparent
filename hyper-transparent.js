@@ -11,7 +11,6 @@ module.exports = class HyperTransparent {
     this.configFile = resolve(__dirname, 'hyper-transparent.json')
     this.win = {}
     this.config = require('./hyper-transparent.json')
-    console.log(this.config)
   }
 
   saveConfig () {
@@ -151,6 +150,25 @@ module.exports = class HyperTransparent {
   }
 
   decorateConfig (appConfig) {
+    // Preffer manual config set on .hyper.js main config file.
+    const hyperTransparent = appConfig.hyperTransparent || {}
+
+    if (hyperTransparent.vibrancy !== undefined) {
+      this.config.vibrancy = hyperTransparent.vibrancy
+    }
+
+    if (
+      hyperTransparent.backgroundColor &&
+      hyperTransparent.opacity
+    ) {
+      this.config.transparency = hyperTransparent.opacity
+      const backgroundColor = this.getBackgroundColor(hyperTransparent.backgroundColor) || '#000'
+      return Object.assign({}, appConfig, {
+        backgroundColor
+      })
+    }
+
+    // Use internal plugin config.
     const backgroundColor = this.getBackgroundColor(appConfig.backgroundColor) || '#000'
     return Object.assign({}, appConfig, {
       backgroundColor
