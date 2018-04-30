@@ -1,5 +1,5 @@
 # hyper-transparent [![Build Status](https://travis-ci.org/codealchemist/hyper-transparent.svg?branch=master)](https://travis-ci.org/codealchemist/hyper-transparent)
-[Hyper](https://hyper.is) plugin to easily set window transparency.
+[Hyper](https://hyper.is) plugin to easily set window transparency and vibrancy.
 
 Also allows you to easily set vibrancy on OSX.
 
