@@ -1,5 +1,6 @@
-const {writeFileSync} = require('fs')
-const {resolve} = require('path')
+const { writeFileSync } = require('fs')
+const { resolve } = require('path')
+const Color = require('color')
 const toElectronBackgroundColor = require('./utils/to-electron-background-color')
 
 /**
@@ -10,15 +11,23 @@ module.exports = class HyperTransparent {
     this.configFile = resolve(__dirname, 'hyper-transparent.json')
     this.win = {}
     this.config = require('./hyper-transparent.json')
+    console.log(this.config)
   }
 
   saveConfig () {
     writeFileSync(this.configFile, JSON.stringify(this.config))
   }
 
+  getBackgroundColor (hex) {
+    const color = Color(hex).alpha(this.config.transparency).toString()
+    this.config.backgroundColor = color
+    this.saveConfig()
+    return color
+  }
+
   setTransparency (value) {
     const background = this.config.backgroundColor
-    this.config.backgroundColor = background.replace(/rgba\((.*),(.*),(.*)\)/, `rgba($1,$2,${value})`)
+    this.config.backgroundColor = background.replace(/rgba\((.*),(.*),(.*)\)/, `rgba($1,$2, ${value})`)
     this.config.transparency = value
     this.win.setBackgroundColor(toElectronBackgroundColor(this.config.backgroundColor))
   }
@@ -142,8 +151,9 @@ module.exports = class HyperTransparent {
   }
 
   decorateConfig (appConfig) {
+    const backgroundColor = this.getBackgroundColor(appConfig.backgroundColor) || '#000'
     return Object.assign({}, appConfig, {
-      backgroundColor: this.config.backgroundColor
+      backgroundColor
     })
   }
 }
