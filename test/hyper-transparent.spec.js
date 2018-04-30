@@ -19,6 +19,7 @@ describe('hyper-transparent', () => {
   it('it should have default config', () => {
     const defaultConfig = {
       backgroundColor: 'rgba(0,0,0,0.7)',
+      transparency: 0.7,
       vibrancy: ''
     }
     expect(hyperTransparent.config).to.eql(defaultConfig)
