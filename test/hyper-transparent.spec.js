@@ -6,7 +6,8 @@ const HyperTransparent = require('../hyper-transparent')
 const configFile = path.join(__dirname, '../hyper-transparent.json')
 const win = {
   setBackgroundColor: () => {},
-  setVibrancy: () => {}
+  setVibrancy: () => {},
+  setHasShadow: () => {}
 }
 const defaultConfig = {
   backgroundColor: 'rgba(0, 0, 0, 0.7)',
