@@ -40,6 +40,10 @@ module.exports = class HyperTransparent {
     this.win = win
     this.setTransparency(this.config.transparency)
     this.setVibrancy(this.config.vibrancy)
+    
+    // Fixes ghosting issues.
+    // See: https://github.com/electron/electron/issues/8847
+    this.win.setHasShadow(false)
   }
 
   getTransparencyMenu () {
