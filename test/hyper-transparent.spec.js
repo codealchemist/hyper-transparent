@@ -7,6 +7,7 @@ const configFile = path.join(__dirname, '../hyper-transparent.json')
 const win = {
   setBackgroundColor: () => {},
   setVibrancy: () => {},
+  setHasShadow: () => {},
   on: () => {}
 }
 const defaultConfig = {
