@@ -9,7 +9,7 @@ const toElectronBackgroundColor = require('./utils/to-electron-background-color'
 module.exports = class HyperTransparent {
   constructor () {
     this.configFile = resolve(__dirname, 'hyper-transparent.json')
-    this.win = {}
+    this.windows = []
     this.config = require('./hyper-transparent.json')
   }
 
@@ -28,18 +28,26 @@ module.exports = class HyperTransparent {
     const background = this.config.backgroundColor
     this.config.backgroundColor = background.replace(/rgba\((.*),(.*),(.*)\)/, `rgba($1,$2, ${value})`)
     this.config.transparency = value
-    this.win.setBackgroundColor(toElectronBackgroundColor(this.config.backgroundColor))
+    this.windows.map(
+      win => win.setBackgroundColor(toElectronBackgroundColor(this.config.backgroundColor))
+    )
   }
 
   setVibrancy (value) {
     this.config.vibrancy = value
-    this.win.setVibrancy(value)
+    this.windows.map(win => win.setVibrancy(value))
   }
 
   setWindow (win) {
-    this.win = win
+    this.windows.push(win)
     this.setTransparency(this.config.transparency)
     this.setVibrancy(this.config.vibrancy)
+
+    win.on('close', e => this.removeWindow(e.sender))
+  }
+
+  removeWindow (closedWin) {
+    this.windows = this.windows.filter(win => win !== closedWin)
   }
 
   getTransparencyMenu () {
@@ -140,9 +148,11 @@ module.exports = class HyperTransparent {
         menuItem.submenu.push(transparencyMenu)
 
         // Set vibrancy menu on systems where vibrancy is available.
-        if (this.win && typeof this.win.setVibrancy === 'function') {
-          menuItem.submenu.push(vibrancyMenu)
-        }
+        this.windows.map(win => {
+          if (win && typeof win.setVibrancy === 'function') {
+            menuItem.submenu.push(vibrancyMenu)
+          }
+        })
       }
     })
 
