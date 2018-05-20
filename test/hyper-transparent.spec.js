@@ -7,7 +7,8 @@ const configFile = path.join(__dirname, '../hyper-transparent.json')
 const win = {
   setBackgroundColor: () => {},
   setVibrancy: () => {},
-  setHasShadow: () => {}
+  setHasShadow: () => {},
+  on: () => {}
 }
 const defaultConfig = {
   backgroundColor: 'rgba(0, 0, 0, 0.7)',
@@ -37,7 +38,7 @@ describe('hyper-transparent', () => {
 
   it('should set window', () => {
     hyperTransparent.setWindow(win)
-    expect(hyperTransparent.win).to.eql(win)
+    expect(hyperTransparent.windows[0]).to.eql(win)
   })
 
   it('should set transparency', () => {
