@@ -1,3 +1,5 @@
+<a href="https://www.buymeacoffee.com/codealchemist" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-black.png" alt="Buy Me A Coffee" width="150px"></a>
+
 # hyper-transparent [![Build Status](https://travis-ci.org/codealchemist/hyper-transparent.svg?branch=master)](https://travis-ci.org/codealchemist/hyper-transparent)
 [Hyper](https://hyper.is) plugin to easily set window transparency and vibrancy.
 
@@ -46,6 +48,13 @@ This config will be preferred, so every time you reload the app it will always
 be loaded.
 
 
+## Support
+
+Currently only supported on OSX.
+If you want to _hop in_ and support Linux and/or Windows that would be awesome!
+Take a look at:
+https://github.com/codealchemist/hyper-transparent/issues/4
+https://github.com/codealchemist/hyper-transparent/issues/3
 
 ## About Hyper
 Hyper is a terminal app written with web technologies using [Electron](http://electron.atom.io).
